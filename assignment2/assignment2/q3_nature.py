@@ -55,11 +55,15 @@ class NatureQN(Linear):
         ##############################################################
         ################ YOUR CODE HERE - 10-15 lines ################ 
         with tf.variable_scope(scope, reuse=reuse) as _:
-            conv1 = tf.layers.conv2d(inputs=state, filters=16, kernel_size=(8, 8), strides=4, activation=tf.nn.relu)
-            conv2 = tf.layers.conv2d(inputs=conv1, filters=32, kernel_size=(4, 4), strides=2, activation=tf.nn.relu)
-            dense1 = tf.layers.dense(inputs=tf.layers.flatten(conv2),units=256,activation=tf.nn.relu,use_bias=True)
-            out = tf.layers.dense(inputs=dense1, units=num_actions, activation=None, use_bias=True) #it can not converge if you set relu for activation
-
+            # conv1 = tf.layers.conv2d(inputs=state, filters=16, kernel_size=(8, 8), strides=4, activation=tf.nn.relu)
+            # conv2 = tf.layers.conv2d(inputs=conv1, filters=32, kernel_size=(4, 4), strides=2, activation=tf.nn.relu)
+            # dense1 = tf.layers.dense(inputs=tf.layers.flatten(conv2),units=256,activation=tf.nn.relu,use_bias=True)
+            # out = tf.layers.dense(inputs=dense1, units=num_actions, activation=None, use_bias=True) #it can not converge if you set relu for activation
+            conv1 = tf.layers.conv2d(inputs=state, filters=32, kernel_size=8, strides=4, activation=tf.nn.relu)
+            conv2 = tf.layers.conv2d(inputs=conv1, filter=64, kernel_size=4, strides=2, activation=tf.nn.relu)
+            conv3 = tf.layers.conv2d(inputs=conv2, filter=64, kernel_size=3, strides=1, activation=tf.nn.relu)
+            dense1 = tf.layers.dense(inputs=tf.layers.flatten(conv3), units=512, activation=tf.nn.relu, use_bias=True)
+            out = tf.layers.dense(inputs=dense1, units=num_actions, activation=None, use_bias=True)
         ##############################################################
         ######################## END YOUR CODE #######################
         return out
